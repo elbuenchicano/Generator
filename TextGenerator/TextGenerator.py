@@ -26,105 +26,77 @@ else:  #Python 3.x
 
 ################################################################################
 ##global variables
-mainDir = "e:/crowdB2/input.txt"
-dictionary = {}
+mainDir     = "E:/CrowdB2/input.txt"
+dictionary  = {}
 ################################################################################
-##class view definition 
-class Application_ui(Frame):
-    #The class will create all widgets for UI.
-    var = ""
-    def myini(self):
-        self.var = 'hola'
-    
-    def createPar(self, val, rl, re, relw, relh):
-        self.Text3Var = StringVar(value = val)
-        self.Text3 = Entry(self.top, textvariable=self.Text3Var, font=('MS Sans Serif',8))
-        self.Text3.place(relx=rl, rely=re, relwidth=relw, relheight=relh)
-    
-    def __init__(self, master=None):
-        Frame.__init__(self, master)
-        self.master.title('Text Generator')
-        self.master.geometry('712x866')
-        self.myini()
-        self.createWidgets()
-    
-    def createWidgets(self):
-        self.top = self.winfo_toplevel()
 
-        self.style = Style()
-
-        self.style.configure('TcmdSalir.TButton', font=('MS Sans Serif',8))
-        self.cmdSalir = Button(self.top, text='Salir', command=self.cmdSalir_Cmd, style='TcmdSalir.TButton')
-        self.cmdSalir.place(relx=0.205, rely=0.782, relwidth=0.516, relheight=0.184)
-
-        #self.Text3Var = StringVar(value=self.var)
-        #self.Text3 = Entry(self.top, textvariable=self.Text3Var, font=('MS Sans Serif',8))
-        #self.Text3.place(relx=0.359, rely=0.451, relwidth=0.26, relheight=0.094)
-        self.createPar(self.var,0.359, 0.451, 0.26, 0.094)
-
-
-        self.Text2Var = StringVar(value=mainDir)
-        self.Text2 = Entry(self.top, textvariable=self.Text2Var, font=('MS Sans Serif',8))
-        self.Text2.place(relx=0.359, rely=0.331, relwidth=0.26, relheight=0.094)
-
-        self.Text1Var = StringVar(value='Text1')
-        self.Text1 = Entry(self.top, textvariable=self.Text1Var, font=('MS Sans Serif',8))
-        self.Text1.place(relx=0.359, rely=0.211, relwidth=0.26, relheight=0.094)
-
-        self.style.configure('TcmdCalcula.TButton', font=('MS Sans Serif',8))
-        self.cmdCalcula = Button(self.top, text='Calcular', command=self.cmdCalcula_Cmd, style='TcmdCalcula.TButton')
-        self.cmdCalcula.place(relx=0.205, rely=0.571, relwidth=0.516, relheight=0.184)
-
-        self.style.configure('TLabel3.TLabel', anchor='w', foreground='#008000', font=('MS Sans Serif',10,'bold'))
-        self.Label3 = Label(self.top, text='Label3', style='TLabel3.TLabel')
-        self.Label3.place(relx=0.667, rely=0.451, relwidth=0.234, relheight=0.094)
-
-        self.style.configure('TLabel3.TLabel', anchor='w', foreground='#008000', font=('MS Sans Serif',10,'bold'))
-        self.Label3 = Label(self.top, text='Label3', style='TLabel3.TLabel')
-        self.Label3.place(relx=0.667, rely=0.331, relwidth=0.234, relheight=0.094)
-
-        self.style.configure('TLabel3.TLabel', anchor='w', foreground='#008000', font=('MS Sans Serif',10,'bold'))
-        self.Label3 = Label(self.top, text='Label3', style='TLabel3.TLabel')
-        self.Label3.place(relx=0.667, rely=0.211, relwidth=0.234, relheight=0.094)
-
-        self.style.configure('TLabel2.TLabel', anchor='w', font=('MS Sans Serif',8))
-        self.Label2 = Label(self.top, text='Cuota Empate', style='TLabel2.TLabel')
-        self.Label2.place(relx=0.026, rely=0.361, relwidth=0.311, relheight=0.064)
-
-        self.style.configure('TLabel2.TLabel', anchor='w', font=('MS Sans Serif',8))
-        self.Label2 = Label(self.top, text='Cuota Visitante', style='TLabel2.TLabel')
-        self.Label2.place(relx=0.026, rely=0.481, relwidth=0.311, relheight=0.064)
-
-        self.style.configure('TLabel2.TLabel', anchor='w', font=('MS Sans Serif',8))
-        self.Label2 = Label(self.top, text='Cuota Local', style='TLabel2.TLabel')
-        self.Label2.place(relx=0.026, rely=0.241, relwidth=0.337, relheight=0.064)
-
-        self.style.configure('TLabel1.TLabel', anchor='center', foreground='#0000FF', font=('MS Sans Serif',12,'bold'))
-        self.Label1 = Label(self.top, text='Ejemplo Manejando datos', style='TLabel1.TLabel')
-        self.Label1.place(relx=0.026, rely=0.03, relwidth=0.952, relheight=0.124)
-
-
-class Application(Application_ui):
-    #The class will implement callback function for events and your logical code.
-    def __init__(self, master=None):
-        Application_ui.__init__(self, master)
-
-    def cmdSalir_Cmd(self, event=None):
-        #TODO, Please finish the function here!
-        pass
-
-    def cmdCalcula_Cmd(self, event=None):
-        #TODO, Please finish the function here!
-        print( self.Text1Var.get())
-        pass
-
-if __name__ == "__main__":
-    top = Tk()
-    Application(top).mainloop()
 
 def updateInfo(dir):
-    fo = open("codehero.txt", "wb")
+    fo = open(dir, "r")
+    for linea in fo:
+        if linea[0] != "#":
+            pos = linea.find(":")
+            key = linea[:pos]
+            val = linea[pos+1:].strip()
+            dictionary[key] = val
+    fo.close()
 
-#tel = {'jack': 4098, 'sape': 4139}
-#tel['guido'] = 4127
-#print (tel.keys())
+
+def addEntry () :
+    phonelist.append ([nameVar.get(), phoneVar.get()])
+    setSelect ()
+
+Gtextvars   = []
+
+def createGrid(frame):
+    cont = 0
+    Label(frame, text="Variables").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
+    Label(frame, text="Values").grid(row=cont, column=3, sticky=W, padx = 10, pady =2)
+    cont += 1
+    for name in dictionary :
+        Label(frame, text=name).grid(row=cont, column=0, sticky=W, padx = 10, pady = 2)
+        nameVar = StringVar(value = dictionary[name])
+        Gtextvars.append(nameVar)
+        entry = Entry(frame, textvariable= nameVar, width=40)
+        entry.grid(row=cont, column=3, sticky=W)
+        
+        Label(frame, text="").grid(row=cont, column=4, sticky=W, padx = 10, pady =2)
+        cont    += 1
+    #for
+    Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
+#def createGrid
+def makeWindow () :
+    global nameVar, select
+    win = Tk()
+    win.title("YML Generator")
+    #win.geometry("500x600")
+
+    frame1 = Frame(win)
+    frame1.pack()
+    
+
+    createGrid(frame1)
+
+
+    frame2 = Frame(win)       # Row of buttons
+    frame2.pack()
+    b1 = Button(frame2,text=" Add  ",command=addEntry)
+    b2 = Button(frame2,text="Update",command=addEntry)
+    
+    b1.pack(side=LEFT); b2.pack(side=LEFT)
+    
+    return win
+
+
+
+
+################################################################################
+if __name__ == "__main__":
+    updateInfo(mainDir)
+    win = makeWindow()
+    win.mainloop()
+    #top = Tk()
+    #Application(top).mainloop()
+    
+
+            
