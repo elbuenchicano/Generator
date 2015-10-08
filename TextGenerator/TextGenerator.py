@@ -34,7 +34,7 @@ else:  #Python 3.x
 #fname       = ""
 dictionary  = {}
 global win
-mainDir     = "E:/CrowdB2/input.yml"
+mainDir     = "D:/crowdb2/base.yml"
 execName    = "Base2.exe"
 textvars    = []
 Gentries    = []
@@ -119,24 +119,6 @@ def addEntry () :
 #def addentry
 ################################################################################
 def createGrid(frame):
-    cont = 0
-    Label(frame, text="Variables").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
-    Label(frame, text="Values").grid(row=cont, column=2, sticky=W, padx = 10, pady =2)
-    cont += 1
-    for name in sorted(dictionary) :
-        Label(frame, text=name).grid(row=cont, column=0, sticky=W, padx = 10, pady = 2)
-        nameVar = StringVar(value = dictionary[name])
-        Gtextvars.append(nameVar)
-        entry = Entry(frame, textvariable= nameVar, width=60)
-        entry.grid(row=cont, column=2, sticky=W)
-        Gentries.append(entry)
-        Label(frame, text="").grid(row=cont, column=3, sticky=W, padx = 5, pady =2)
-        cont    += 1
-    #for
-    Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
-#def createGrid
-
-def createSecondGrid(frame):
     global entry, entry2, entry3, entry4
     entry = Entry(frame, width=40)
     entry.grid(row = 0, column =0)
@@ -150,20 +132,23 @@ def createSecondGrid(frame):
     entry4.grid(row = 1, column =1)
     b3 = Button(frame,text="Dir store",command=load_file2, width = 10).grid(row = 1, column =2)
 
-################################################################################
-def makeWindow () :
-    
-    win = Tk()
-    win.title("YML Generator")
-    frame1 = Frame(win)
-    frame1.pack()
-    createGrid(frame1)
-    frame2 = Frame(win)       # Row of buttons
-    frame2.pack()
-    createSecondGrid(frame2)
- 
-    return win
-#def makewindow
+    cont = 3
+    Label(frame, text="Variables").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
+    Label(frame, text="Values").grid(row=cont, column=2, sticky=W, padx = 10, pady =2)
+    cont += 1
+    for name in sorted(dictionary) :
+        Label(frame, text=name).grid(row=cont, column=0, sticky=W, padx = 10, pady = 2)
+        nameVar = StringVar(value = dictionary[name])
+        Gtextvars.append(nameVar)
+        entryg = Entry(frame, textvariable= nameVar, width=60)
+        entryg.grid(row=cont, column=2, sticky=W)
+        Gentries.append(entryg)
+        Label(frame, text="").grid(row=cont, column=3, sticky=W, padx = 5, pady =2)
+        cont    += 1
+    #for
+    Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
+
+
 ################################################################################
 def load_file():
     fname = tkFileDialog.askdirectory()
@@ -187,11 +172,68 @@ def load_file2():
         #showerror("Open Source File", "Failed to read file\n'%s'" % fname)
     return fname
 ################################################################################
-if __name__ == "__main__":
-    updateInfo(mainDir)
-    win = makeWindow()
-    win.mainloop()
-    
-    
+# http://tkinter.unpythonic.net/wiki/VerticalScrolledFrame
 
+class VerticalScrolledFrame(Frame):
+    """A pure Tkinter scrollable frame that actually works!
+    * Use the 'interior' attribute to place widgets inside the scrollable frame
+    * Construct and pack/place/grid normally
+    * This frame only allows vertical scrolling
+
+    """
+    def __init__(self, parent, *args, **kw):
+        Frame.__init__(self, parent, *args, **kw)            
+
+        # create a canvas object and a vertical scrollbar for scrolling it
+        vscrollbar  = Scrollbar(self, orient=VERTICAL)
+        vscrollbar.pack(fill=Y, side=RIGHT, expand=FALSE)
+        canvas      = Canvas(self, bd=0, highlightthickness=0,
+                             yscrollcommand=vscrollbar.set)
+        canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
+        vscrollbar.config(command=canvas.yview)
+        canvas.config(width=200,height=600)
+
+        # reset the view
+        canvas.xview_moveto(0)
+        canvas.yview_moveto(0)
+
+        # create a frame inside the canvas which will be scrolled with it
+        self.interior = interior = Frame(canvas)
+        interior_id = canvas.create_window(0, 0, window=interior,
+                                           anchor=NW)
+
+        # track changes to the canvas and frame width and sync them,
+        # also updating the scrollbar
+        def _configure_interior(event):
+            # update the scrollbars to match the size of the inner frame
+            size = (interior.winfo_reqwidth(), interior.winfo_reqheight())
+            canvas.config(scrollregion="0 0 %s %s" % size)
+            if interior.winfo_reqwidth() != canvas.winfo_width():
+                # update the canvas's width to fit the inner frame
+                canvas.config(width=interior.winfo_reqwidth())
+        interior.bind('<Configure>', _configure_interior)
+
+        def _configure_canvas(event):
+            if interior.winfo_reqwidth() != canvas.winfo_width():
+                # update the inner frame's width to fill the canvas
+                canvas.itemconfigure(interior_id, width=canvas.winfo_width())
+        canvas.bind('<Configure>', _configure_canvas)
+
+######################################################################################
+######################################################################################
+######################################################################################
+if __name__ == "__main__":
+
+    class SampleApp(Tk): 
+        def __init__(self, *args, **kwargs):
+            root = Tk.__init__(self, *args, **kwargs)
+            self.frame = VerticalScrolledFrame(root)
+            self.frame.pack()
+            self.label = Label(text="Yml data loader")
+            self.label.pack()
+            createGrid(self.frame.interior)
+    #................................................................................
+    updateInfo(mainDir)
+    app = SampleApp()
+    app.mainloop()   
             
