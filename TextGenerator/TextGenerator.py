@@ -40,6 +40,7 @@ textvars    = []
 Gentries    = []
 Gtextvars   = []
 
+
 ################################################################################
 def updateInfo(dir):
     if dir != "":
@@ -118,32 +119,51 @@ def addEntry () :
             messagebox.showinfo("info", "No Info")
 #def addentry
 ################################################################################
-def createGrid(frame):
+def createHeader(frame) :
+
     global entry, entry2, entry3, entry4
-    entry = Entry(frame, width=40)
+    entry = Entry(frame, width=30)
     entry.grid(row = 0, column =0)
     entry2 = Entry(frame, width=20)
+    
     entry2.grid(row = 0, column =1)
+
+
     b1 = Button(frame,text="Dir .bat",command=load_file, width = 10).grid(row = 0, column =2)
-    b2 = Button(frame,text="Generate",command=addEntry, width = 20).grid(row = 0, column =3, rowspan = 2, sticky='ns')
-    entry3 = Entry(frame, width=40)
+    b2 = Button(frame,text="Generate",command=addEntry, width = 10).grid(row = 0, column =3, rowspan = 2, sticky='ns')
+    
+    entry3 = Entry(frame, width=30)
     entry3.grid(row = 1, column =0)
+    
     entry4 = Entry(frame, width=20)
     entry4.grid(row = 1, column =1)
+    
     b3 = Button(frame,text="Dir store",command=load_file2, width = 10).grid(row = 1, column =2)
+    #return 
 
+def createGrid(frame):
+    
+    createHeader(frame)   
+
+    #-----------------------------------------------------------------------------
     cont = 3
+    
+    Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
+    Label(frame, text="").grid(row=cont, column=1, sticky=W, padx = 10, pady =2)
+    
+    cont += 1
+
     Label(frame, text="Variables").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
-    Label(frame, text="Values").grid(row=cont, column=2, sticky=W, padx = 10, pady =2)
+    Label(frame, text="Values").grid(row=cont, column=1, sticky=W, padx = 10, pady =2)
     cont += 1
     for name in sorted(dictionary) :
         Label(frame, text=name).grid(row=cont, column=0, sticky=W, padx = 10, pady = 2)
         nameVar = StringVar(value = dictionary[name])
         Gtextvars.append(nameVar)
-        entryg = Entry(frame, textvariable= nameVar, width=60)
-        entryg.grid(row=cont, column=2, sticky=W)
+        entryg = Entry(frame, textvariable= nameVar, width=40)
+        entryg.grid(row=cont, column=1, sticky=W, columnspan = 2)
         Gentries.append(entryg)
-        Label(frame, text="").grid(row=cont, column=3, sticky=W, padx = 5, pady =2)
+        Label(frame, text="").grid(row=cont, column=3, sticky=W, padx = 5, pady =3)
         cont    += 1
     #for
     Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
@@ -191,7 +211,7 @@ class VerticalScrolledFrame(Frame):
                              yscrollcommand=vscrollbar.set)
         canvas.pack(side=LEFT, fill=BOTH, expand=TRUE)
         vscrollbar.config(command=canvas.yview)
-        canvas.config(width=200,height=600)
+        canvas.config(width=200,height=650)
 
         # reset the view
         canvas.xview_moveto(0)
@@ -229,7 +249,7 @@ if __name__ == "__main__":
             root = Tk.__init__(self, *args, **kwargs)
             self.frame = VerticalScrolledFrame(root)
             self.frame.pack()
-            self.label = Label(text="Yml data loader")
+            self.label = Label(text="Yml generator", font=("Helvetica", 8), anchor = E)
             self.label.pack()
             createGrid(self.frame.interior)
     #................................................................................
