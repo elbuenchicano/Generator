@@ -79,9 +79,7 @@ def generate() :
     pos     = 0
     fexe   = entry.get().replace("\n"," ")
     outbat  = entry3.get() + "/" + entry2.get() + ".bat"
-     
     try:
-
         out_fileb = open(outbat, "w")
         out_fileb.write(batOut)
         for x in range( int( ent_ini.get() ), int(  ent_fin.get() )+1, int( ent_incr.get() ) ):
