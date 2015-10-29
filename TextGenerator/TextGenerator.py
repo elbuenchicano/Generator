@@ -34,7 +34,7 @@ else:  #Python 3.x
 #fname       = ""
 dictionary  = {}
 global win
-mainDir     = "D:/crowdb2/base.yml"
+mainDir     = "D:/CrowdB2/PruebaGabor/Test4/gaborvalid4.yml"
 execName    = "Base2.exe"
 textvars    = []
 Gentries    = []
@@ -63,15 +63,24 @@ def colectInfo(valu):
         valf = valf.replace("{i}",str(valu))
         out += name + ": " + valf + "\n"   
         pos += 1
+    out = out.replace("%YAML: 1.0","%YAML:1.0")
     return out
 #def updateinfo
 #################################################################################
 def save_olds() :
     fo      = open("./saveold", "w")
     fo.write(entry.get())
+    #fo.write("\n")
     fo.write(entry3.get())
     fo.close()
 #def save_olds
+
+
+def xfrange(start, stop, step):
+    while start < stop:
+        yield start
+        start += step
+
 ################################################################################
 def generate() :
     out     = ""
@@ -82,8 +91,17 @@ def generate() :
     try:
         out_fileb = open(outbat, "w")
         out_fileb.write(batOut)
-        for x in range( int( ent_ini.get() ), int(  ent_fin.get() )+1, int( ent_incr.get() ) ):
-            outyml  = entry3.get() + "/" + entry4.get() + str(x) +".yml"
+        
+        ini = float( ent_ini.get() )
+        fin = float( ent_fin.get() )
+        incr = float( ent_incr.get() )
+        
+        r = xfrange(ini,fin,incr)
+
+        for x in r:
+            tok = x*1000
+            tok = int(tok)
+            outyml  = entry3.get() + "/" + entry4.get() + str(tok) +".yml"
             batOut  = fexe + " " + outyml + "\n"  
             out_fileb.write(batOut)
 
