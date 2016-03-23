@@ -34,7 +34,10 @@ else:  #Python 3.x
 #fname       = ""
 dictionary  = {}
 global win
-mainDir     = "D:/CrowdB2/PruebaGabor/Test4/gaborvalid4.yml"
+#mainDir     = "D:/graderia/testmix_hofm/valid.yml"
+#mainDir     = "D:/CrowdB2/PruebaSib/ofcm/ofcmvalid.yml"
+mainDir     = "D:/subway/prueba2/valid.yml"
+#mainDir     = "D:/peds2/prueba/sib6valid.yml"
 execName    = "Base2.exe"
 textvars    = []
 Gentries    = []
@@ -114,7 +117,12 @@ def generate() :
     except:
         messagebox.showinfo("info", "No Info")   
     save_olds()
+
 #def generate
+#################################################################################
+def generate_list():
+    a = 2
+#def generatelist
 #################################################################################
 def load_olds() :
     fo      = open("./saveold", "r")
@@ -136,7 +144,7 @@ def createHeader(frame) :
     entry2.insert(0,"batOut")
 
     b1 = Button(frame,text="File .exe",command=load_file, width = 10).grid(row = 0, column =1)
-    b2 = Button(frame,text="Generate",command=generate, width = 10).grid(row = 0, column =3, rowspan = 2, sticky='ns')
+    b2 = Button(frame,text="Generate \nBat",command=generate, width = 10).grid(row = 0, column =3, rowspan = 2, sticky='ns')
     
     entry3 = Entry(frame, width=30)
     entry3.grid(row = 1, column =0)
@@ -160,6 +168,8 @@ def createHeader(frame) :
     ent_incr.insert(0,"1")
     ent_fin.insert(0,"1")
 
+    b4 = Button(frame,text="Generate \nList",command=generate_list, width = 10).grid(row = 0, column =4, rowspan = 2, sticky='ns')
+
     load_olds()
     
     
@@ -174,7 +184,7 @@ def createGrid(frame):
     #Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
     #Label(frame, text="").grid(row=cont, column=1, sticky=W, padx = 10, pady =2)
     
-    cont = 4
+    cont = 5
 
     Label(frame, text="Variables").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
     Label(frame, text="Values").grid(row=cont, column=1, sticky=W, padx = 10, pady =2)
@@ -186,7 +196,7 @@ def createGrid(frame):
         entryg = Entry(frame, textvariable= nameVar, width=35)
         entryg.grid(row=cont, column=1, sticky=W, columnspan = 3)
         Gentries.append(entryg)
-        Label(frame, text="").grid(row=cont, column=6, sticky=W, padx = 5, pady =3)
+        #Label(frame, text="").grid(row=cont, column=6, sticky=W, padx = 1, pady =3)
         cont    += 1
     #for
     Label(frame, text="").grid(row=cont, column=0, sticky=W, padx = 10, pady =2)
